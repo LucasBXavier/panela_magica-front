@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -30,8 +31,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
+        <Script
+          src="https://kit.fontawesome.com/5ba8568aec.js"
+          strategy="beforeInteractive"
+          crossOrigin="anonymous"
+        />
         <SiteHeader />
-        {children}
+        <div className="page">{children}</div>
         <SiteFooter />
       </body>
     </html>

@@ -41,6 +41,8 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   min-height: 100dvh;
   color: var(--ink);
   background: var(--canvas);
@@ -50,6 +52,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
+}
+
+/* Ocupa o espaço restante para manter o rodapé no fim da tela */
+.page {
+  flex: 1 0 auto;
+  padding-bottom: var(--section-gap);
 }
 
 a {

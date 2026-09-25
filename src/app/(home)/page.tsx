@@ -1,6 +1,6 @@
 import Image from "next/image";
 import RecipeBrowser from "@/components/recipes/RecipeBrowser";
-import { getRecipes } from "@/lib/recipes";
+import { getRecipes } from "@/lib/server/recipes";
 import styles from "./page.module.css";
 
 export default async function Home() {

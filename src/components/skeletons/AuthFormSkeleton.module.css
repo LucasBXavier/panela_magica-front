@@ -1,0 +1,32 @@
+.main {
+  display: grid;
+  place-items: center;
+  min-height: calc(100dvh - 64px);
+  padding: 2rem var(--pad-x) var(--section-gap);
+}
+
+.card {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 28rem;
+  padding: 2rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 1.75rem;
+  background: var(--surface);
+}
+
+.form {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .card {
+    padding: 3rem;
+    border-radius: var(--radius-card);
+  }
+}

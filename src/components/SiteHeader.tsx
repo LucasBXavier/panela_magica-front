@@ -1,7 +1,11 @@
 import Link from "next/link";
+import { getSession } from "@/lib/server/session";
 import styles from "./SiteHeader.module.css";
+import SiteNav from "./SiteNav";
 
-export default function SiteHeader() {
+export default async function SiteHeader() {
+  const usuario = await getSession();
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -17,11 +21,7 @@ export default function SiteHeader() {
           </svg>
           <span>Panela Mágica</span>
         </Link>
-        <nav aria-label="Principal" className={styles.nav}>
-          <Link href="/" aria-current="page" className={styles.active}>
-            Receitas
-          </Link>
-        </nav>
+        <SiteNav usuario={usuario} />
       </div>
     </header>
   );

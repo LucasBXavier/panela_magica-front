@@ -7,6 +7,7 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
+  color: var(--steel);
 }
 
 .inner {
@@ -33,17 +34,222 @@
   color: var(--accent);
 }
 
-.nav a {
+.nav {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  padding: 0 0.25rem;
   font-size: 0.9375rem;
-  color: var(--steel);
 }
 
-.nav a.active {
-  color: var(--ink);
+.desktopLinks {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.linkGroup,
+.actionGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.actionGroup {
+  gap: 0.5rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--border);
+}
+
+.menuButton,
+.mobileLinks {
+  display: none;
+}
+
+.navLink,
+.nav .logout,
+.cta {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 0.875rem;
+  border-radius: 999px;
+  font: inherit;
   font-weight: 600;
+  color: var(--steel);
+  transition:
+    background-color 0.2s var(--spring),
+    color 0.2s var(--spring),
+    transform 0.15s var(--spring);
+}
+
+.navLink:hover,
+.nav .logout:hover {
+  color: var(--ink);
+}
+
+.nav .navLink.active {
+  color: var(--ink);
   box-shadow: inset 0 -2px 0 var(--accent);
+  border-radius: 0;
+}
+
+.nav .logout {
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav .logout:disabled {
+  opacity: 0.6;
+}
+
+.cta {
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.cta:hover {
+  background: #27272a;
+}
+
+.navLink:active,
+.cta:active,
+.nav .logout:active {
+  transform: scale(0.97);
+}
+
+@media (min-width: 768px) {
+  .nav .menuButton {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktopLinks {
+    display: none;
+  }
+
+  .menuButton {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    color: var(--ink);
+  }
+
+  .drawerBackdrop {
+    background: rgba(24, 24, 27, 0.35);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .drawerPaper {
+    display: flex;
+    flex-direction: column;
+    width: min(86vw, 22rem);
+    padding: env(safe-area-inset-top) 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
+    background: var(--surface);
+    border-radius: 1.5rem 0 0 1.5rem;
+    box-shadow: -20px 0 40px -15px rgba(0, 0, 0, 0.12);
+  }
+
+  .drawerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 64px;
+    padding-bottom: 0.5rem;
+  }
+
+  .drawerTitle {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .closeButton {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    color: var(--ink);
+  }
+
+  .mobileLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .mobileLink,
+  .mobileLogout {
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 1rem;
+    border-radius: 1rem;
+    font: inherit;
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--steel);
+    transition:
+      background-color 0.2s var(--spring),
+      color 0.2s var(--spring),
+      transform 0.15s var(--spring);
+  }
+
+  .mobileLink:active,
+  .mobileLogout:active {
+    transform: scale(0.98);
+  }
+
+  .mobileLinks .mobileLink:hover {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--ink);
+  }
+
+  .mobileLinks .mobileActive {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
+
+  .mobileActions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .mobileActions .mobileLink,
+  .mobileLogout {
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .mobilePrimary {
+    background: var(--ink);
+    color: var(--surface);
+  }
+
+  .mobileActions .mobilePrimary:hover {
+    background: #27272a;
+    color: var(--surface);
+  }
+
+  .mobileSecondary,
+  .mobileLogout {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .mobileLogout:disabled {
+    opacity: 0.6;
+  }
 }

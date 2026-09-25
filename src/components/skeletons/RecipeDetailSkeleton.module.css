@@ -1,0 +1,21 @@
+.main {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem var(--pad-x) var(--section-gap);
+}
+
+.content {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .main {
+    grid-template-columns: 1fr 1.1fr;
+    gap: 4rem;
+    padding-top: 2.5rem;
+  }
+}

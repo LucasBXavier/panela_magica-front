@@ -5,9 +5,9 @@ import { notFound } from "next/navigation";
 import {
   CATEGORIA_LABEL,
   formatQuantidade,
-  getRecipeById,
-  getRecipes,
+  getRecipeImage,
 } from "@/lib/recipes";
+import { getRecipeById, getRecipes } from "@/lib/server/recipes";
 import styles from "./page.module.css";
 
 export async function generateStaticParams() {
@@ -36,9 +36,10 @@ export default async function RecipePage(props: PageProps<"/receitas/[receita]">
     <main className={styles.main}>
       <div className={styles.media}>
         <Image
-          src={recipe.imagem}
+          src={getRecipeImage(recipe)}
           alt={`Foto de ${recipe.nome}`}
           fill
+          unoptimized={!!recipe.imagemUrl}
           sizes="(max-width: 899px) 100vw, 45vw"
           preload
         />
@@ -60,7 +61,7 @@ export default async function RecipePage(props: PageProps<"/receitas/[receita]">
 
         <dl className={styles.meta}>
           <div>
-            <dt>Preparo</dt>
+            <dt>Tempo de Preparo</dt>
             <dd>{recipe.tempoPreparo}</dd>
           </div>
           <div>

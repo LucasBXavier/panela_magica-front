@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CATEGORIA_LABEL, type Receita } from "@/lib/recipes";
+import { CATEGORIA_LABEL, getRecipeImage, type Receita } from "@/lib/recipes";
 import styles from "./RecipeCard.module.css";
 
 interface Props {
@@ -15,9 +15,10 @@ export default function RecipeCard({ recipe, featured = false }: Props) {
     <article className={`${styles.card} ${featured ? styles.featured : ""}`}>
       <div className={styles.media}>
         <Image
-          src={recipe.imagem}
+          src={getRecipeImage(recipe)}
           alt={`Foto de ${recipe.nome}`}
           fill
+          unoptimized={!!recipe.imagemUrl}
           sizes="(max-width: 767px) 100vw, (max-width: 1099px) 50vw, 33vw"
         />
       </div>
@@ -35,7 +36,7 @@ export default function RecipeCard({ recipe, featured = false }: Props) {
 
         <dl className={styles.meta}>
           <div>
-            <dt>Preparo</dt>
+            <dt>Tempo de Preparo</dt>
             <dd>{recipe.tempoPreparo}</dd>
           </div>
           <div>
