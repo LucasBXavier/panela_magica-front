@@ -1,0 +1,63 @@
+.wrap {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+  padding: 2rem 1.25rem;
+  border: 1px dashed var(--border);
+  border-radius: 1.75rem;
+  background: var(--surface);
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+}
+
+.text {
+  max-width: 46ch;
+  color: var(--steel);
+}
+
+.button {
+  min-height: 48px;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 600;
+  transition: transform 0.3s var(--spring);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.steam {
+  animation: float 3s ease-in-out infinite;
+}
+
+@media (min-width: 640px) {
+  .wrap {
+    padding: 3rem;
+    border-radius: var(--radius-card);
+  }
+
+  .button {
+    width: auto;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}

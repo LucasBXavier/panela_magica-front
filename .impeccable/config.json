@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "bounce-easing",
+        "value": "var(--spring)",
+        "createdAt": "2026-09-24T23:37:37.644Z",
+        "reason": "assistant: --spring is cubic-bezier(0.22,1,0.36,1), an ease-out-quint style curve with no overshoot (control points <= 1); false positive on the token name"
+      }
+    ]
+  }
+}
