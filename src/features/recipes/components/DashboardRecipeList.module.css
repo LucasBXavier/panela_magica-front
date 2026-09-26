@@ -138,14 +138,6 @@
   color: var(--ink);
 }
 
-.error {
-  margin-top: 0.75rem;
-  padding: 0.75rem 1rem;
-  border-radius: 1rem;
-  background: #fef2f2;
-  color: #b91c1c !important;
-  font-size: 0.875rem;
-}
 
 .dialogActions {
   display: flex;

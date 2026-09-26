@@ -3,14 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { CATEGORIA_LABEL, getRecipeImage, type Receita } from "@/lib/recipes";
+import { CATEGORIA_LABEL, formatDate, getRecipeImage, type Receita } from "@/lib/recipes";
 import { useDeleteRecipe } from "../hooks/useDeleteRecipe";
 import styles from "./DashboardRecipeList.module.css";
 
 export default function DashboardRecipeList({ recipes }: { recipes: Receita[] }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [target, setTarget] = useState<Receita | null>(null);
-  const { remove, pending, error } = useDeleteRecipe();
+  const { remove, pending } = useDeleteRecipe();
 
   function askDelete(recipe: Receita) {
     setTarget(recipe);
@@ -40,7 +40,7 @@ export default function DashboardRecipeList({ recipes }: { recipes: Receita[] })
                 <Link href={`/receitas/${recipe.id}`}>{recipe.nome}</Link>
               </h3>
               <p className={styles.meta}>
-                {recipe.tempoPreparo} · Rende {recipe.rendimento} · {recipe.dataCriacao.split(" ")[0]}
+                {recipe.tempoPreparo} · Rende {recipe.rendimento} · {formatDate(recipe.dataCriacao)}
               </p>
             </div>
             <div className={styles.actions}>
@@ -60,11 +60,6 @@ export default function DashboardRecipeList({ recipes }: { recipes: Receita[] })
         <p>
           <strong>{target?.nome}</strong> será removida permanentemente. Essa ação não pode ser desfeita.
         </p>
-        {error && (
-          <p role="alert" className={styles.error}>
-            {error}
-          </p>
-        )}
         <div className={styles.dialogActions}>
           <button type="button" className={styles.cancel} onClick={close} disabled={pending}>
             Cancelar

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   CATEGORIA_LABEL,
+  formatDate,
   formatQuantidade,
   getRecipeImage,
 } from "@/lib/recipes";
@@ -30,7 +31,7 @@ export default async function RecipePage(props: PageProps<"/receitas/[receita]">
   if (!recipe) notFound();
 
   const steps = recipe.modoPreparo.split("\n").filter(Boolean);
-  const publishedAt = recipe.dataCriacao.split(" ")[0];
+  const publishedAt = formatDate(recipe.dataCriacao);
 
   return (
     <main className={styles.main}>

@@ -21,5 +21,7 @@ export interface LoginResponse {
   token: string;
   type: "Bearer";
   expiresIn: number;
+  refreshToken: string;
+  refreshExpiresIn: number;
   usuario: Usuario;
 }

@@ -40,7 +40,7 @@ function changedFields(recipe: Receita, input: CreateRecipeInput): UpdateRecipeI
 }
 
 export default function RecipeForm({ recipe }: Props) {
-  const { save, pending, error } = useSaveRecipe(recipe?.id);
+  const { save, pending } = useSaveRecipe(recipe?.id);
   const imageField = useRef<ImageFieldHandle>(null);
   const [categoria, setCategoria] = useState<Categoria>(recipe?.categoria ?? "DOCE");
 
@@ -195,11 +195,6 @@ export default function RecipeForm({ recipe }: Props) {
         <small>Escreva um passo por linha.</small>
       </div>
 
-      {error && (
-        <p role="alert" className={styles.error}>
-          {error}
-        </p>
-      )}
 
       <div className={styles.actions}>
         <Link href="/dashboard" className={styles.cancel}>

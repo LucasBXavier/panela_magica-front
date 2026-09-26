@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import LogoutButton from "@/features/auth/components/LogoutButton";
-import { CATEGORIAS } from "@/lib/recipes";
+import { CATEGORIAS, formatDate } from "@/lib/recipes";
 import { getMyRecipes } from "@/lib/server/recipes";
 import { getSession } from "@/lib/server/session";
 import styles from "./perfil.module.css";
@@ -19,7 +19,7 @@ export default async function Perfil() {
   if (!usuario) redirect("/login?next=/perfil");
 
   const recipes = await getMyRecipes();
-  const memberSince = usuario.dataCriacao?.split(" ")[0];
+  const memberSince = usuario.dataCriacao ? formatDate(usuario.dataCriacao) : undefined;
 
   return (
     <main className={styles.main}>

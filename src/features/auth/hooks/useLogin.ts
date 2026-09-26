@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ApiError } from "@/lib/api";
+import { toastError, toastSuccess } from "@/lib/toast";
 import { authService } from "../services/auth.service";
 import type { LoginInput } from "../types";
 
@@ -14,20 +14,19 @@ function safeNext(next?: string): string {
 export function useLogin(next?: string) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   async function login(input: LoginInput) {
     setPending(true);
-    setError(null);
     try {
       await authService.login(input);
+      toastSuccess("Bem-vindo de volta!");
       router.push(safeNext(next));
       router.refresh();
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Não foi possível entrar. Tente novamente.");
+      toastError(err, "Não foi possível entrar. Tente novamente.", "Não foi possível entrar");
       setPending(false);
     }
   }
 
-  return { login, pending, error };
+  return { login, pending };
 }

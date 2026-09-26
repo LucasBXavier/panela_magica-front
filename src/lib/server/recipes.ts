@@ -13,10 +13,10 @@ export async function getRecipes(): Promise<Receita[]> {
   }
 }
 
-// GET /minhas-receitas exige token: só devolve as receitas do usuário logado.
+// GET /usuarios/me/receitas exige token: só devolve as receitas do usuário logado.
 export async function getMyRecipes(): Promise<Receita[]> {
   try {
-    const res = await backendFetch("/receitas/minhas-receitas");
+    const res = await backendFetch("/usuarios/me/receitas");
     if (!res.ok) {
       console.error(`[getMyRecipes] ${res.status}: ${(await res.text()).slice(0, 300)}`);
       return [];

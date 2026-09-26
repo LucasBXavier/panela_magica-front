@@ -6,7 +6,7 @@ import { useLogin } from "../hooks/useLogin";
 import styles from "./LoginForm.module.css";
 
 export default function LoginForm({ next }: { next?: string }) {
-  const { login, pending, error } = useLogin(next);
+  const { login, pending } = useLogin(next);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -41,15 +41,10 @@ export default function LoginForm({ next }: { next?: string }) {
             id="password"
             name="password"
             autoComplete="current-password"
-            minLength={6}
+            maxLength={72}
             required
           />
 
-          {error && (
-            <p role="alert" className={styles.error}>
-              {error}
-            </p>
-          )}
 
           <button type="submit" disabled={pending}>
             {pending ? "Entrando…" : "Entrar"}

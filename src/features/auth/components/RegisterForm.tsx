@@ -6,7 +6,7 @@ import { useRegister } from "../hooks/useRegister";
 import styles from "./RegisterForm.module.css";
 
 export default function RegisterForm() {
-  const { register, pending, error } = useRegister();
+  const { register, pending } = useRegister();
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -49,14 +49,12 @@ export default function RegisterForm() {
             name="password"
             autoComplete="new-password"
             minLength={8}
+            maxLength={72}
+            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#_\-])[A-Za-z\d@$!%*?&#_\-]{8,72}"
+            title="De 8 a 72 caracteres, com maiúscula, minúscula, número e um símbolo (@ $ ! % * ? & # _ -). Sem acentos."
             required
           />
 
-          {error && (
-            <p role="alert" className={styles.error}>
-              {error}
-            </p>
-          )}
 
           <button type="submit" disabled={pending}>
             {pending ? "Criando…" : "Criar conta"}

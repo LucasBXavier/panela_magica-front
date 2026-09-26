@@ -50,10 +50,17 @@ export const CATEGORIA_LABEL: Record<Categoria, string> = {
 export const IMAGE_MAX_BYTES = 5 * 1024 * 1024;
 export const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
-// Imagem enviada vem pelo proxy /api (mesma origem); o backend devolve /api/v1/receitas/imagem/{id}.
+// Imagem enviada vem pelo proxy /api (mesma origem); o backend devolve /api/v1/receitas/{id}/imagem.
 export function getRecipeImage(recipe: Pick<Receita, "categoria"> & { imagemUrl?: string | null }): string {
   if (recipe.imagemUrl) return `/api${recipe.imagemUrl.replace(/^\/api\/v1/, "")}`;
   return `/images/placeholder/${recipe.categoria.toLowerCase()}.webp`;
+}
+
+// dataCriacao vem em ISO-8601 com fuso (2026-09-24T14:30:00-03:00); exibe dd/mm/aaaa no horário de Brasília.
+export function formatDate(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
 }
 
 export const UNIDADE_LABEL: Record<UnidadeMedida, string> = {

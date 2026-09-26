@@ -1,5 +1,6 @@
 "use client";
 
+import { toastInvalid } from "@/lib/toast";
 import {
   useEffect,
   useImperativeHandle,
@@ -54,7 +55,6 @@ export default function ImageField({ currentImage, ref }: Props) {
   const [zoom, setZoom] = useState(1);
   // Deslocamento do centro da imagem, em fração do quadro.
   const [pan, setPan] = useState({ x: 0, y: 0 });
-  const [error, setError] = useState<string | null>(null);
   const [removedCurrent, setRemovedCurrent] = useState(false);
 
   useEffect(() => () => { if (picked) URL.revokeObjectURL(picked.url); }, [picked]);
@@ -71,13 +71,12 @@ export default function ImageField({ currentImage, ref }: Props) {
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
-    if (!IMAGE_TYPES.includes(file.type)) return setError("Formato inválido. Use JPEG, PNG ou WEBP.");
-    if (file.size > IMAGE_MAX_BYTES) return setError("Imagem muito grande. Tamanho máximo: 5MB.");
+    if (!IMAGE_TYPES.includes(file.type)) return toastInvalid("Use JPEG, PNG ou WEBP.", "Formato inválido");
+    if (file.size > IMAGE_MAX_BYTES) return toastInvalid("Tamanho máximo: 5MB.", "Imagem muito grande");
 
     const url = URL.createObjectURL(file);
     const probe = new Image();
     probe.onload = () => {
-      setError(null);
       setRemovedCurrent(false);
       setZoom(1);
       setPan({ x: 0, y: 0 });
@@ -85,7 +84,7 @@ export default function ImageField({ currentImage, ref }: Props) {
     };
     probe.onerror = () => {
       URL.revokeObjectURL(url);
-      setError("Não foi possível ler essa imagem.");
+      toastInvalid("Não foi possível ler essa imagem.", "Imagem inválida");
     };
     probe.src = url;
   }
@@ -118,7 +117,6 @@ export default function ImageField({ currentImage, ref }: Props) {
 
   // Com uma imagem nova escolhida, descarta a escolha (volta à salva); senão marca a salva para remoção.
   function remove() {
-    setError(null);
     if (picked) setPicked(null);
     else setRemovedCurrent(true);
   }
@@ -225,11 +223,6 @@ export default function ImageField({ currentImage, ref }: Props) {
         <small>JPEG, PNG ou WEBP · até 5MB</small>
       </div>
 
-      {error && (
-        <p role="alert" className={styles.error}>
-          {error}
-        </p>
-      )}
 
       <input ref={fileInput} type="file" accept={IMAGE_TYPES.join(",")} onChange={onPick} hidden />
     </div>

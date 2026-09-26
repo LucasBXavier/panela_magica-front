@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toastSuccess } from "@/lib/toast";
 import { authService } from "../services/auth.service";
 
 export function useLogout() {
@@ -13,6 +14,7 @@ export function useLogout() {
     try {
       await authService.logout();
     } finally {
+      toastSuccess("Você saiu da sua conta");
       router.push("/");
       router.refresh();
       setPending(false);

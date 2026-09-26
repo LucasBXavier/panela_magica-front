@@ -5,6 +5,7 @@ export class ApiError extends Error {
   constructor(
     public status: number,
     message: string,
+    public retryAfter?: number,
   ) {
     super(message);
     this.name = "ApiError";
@@ -46,7 +47,14 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
   });
 
   const parsed = await parseBody(res);
-  if (!res.ok) throw new ApiError(res.status, errorMessage(parsed, "Erro inesperado. Tente novamente."));
+  if (!res.ok) {
+    const retryAfter = Number(res.headers.get("retry-after"));
+    throw new ApiError(
+      res.status,
+      errorMessage(parsed, "Erro inesperado. Tente novamente."),
+      retryAfter > 0 ? retryAfter : undefined,
+    );
+  }
   return (isEnvelope(parsed) ? parsed.data : parsed) as T;
 }
 

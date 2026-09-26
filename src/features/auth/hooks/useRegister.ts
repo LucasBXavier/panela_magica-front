@@ -2,26 +2,25 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ApiError } from "@/lib/api";
+import { toastError, toastSuccess } from "@/lib/toast";
 import { authService } from "../services/auth.service";
 import type { RegisterInput } from "../types";
 
 export function useRegister() {
   const router = useRouter();
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   async function register(input: RegisterInput) {
     setPending(true);
-    setError(null);
     try {
       await authService.register(input);
+      toastSuccess("Conta criada", "Agora é só entrar com seu e-mail e senha.");
       router.push("/login");
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Não foi possível criar a conta. Tente novamente.");
+      toastError(err, "Não foi possível criar a conta. Tente novamente.", "Não foi possível criar a conta");
       setPending(false);
     }
   }
 
-  return { register, pending, error };
+  return { register, pending };
 }

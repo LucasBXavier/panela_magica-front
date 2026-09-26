@@ -16,16 +16,14 @@ export type UpdateRecipeInput = Partial<CreateRecipeInput>;
 
 // Rotas protegidas: o proxy /api injeta o token do cookie de sessão.
 export const recipesService = {
-  create: (input: CreateRecipeInput) => api.post<Receita>("/receitas/criar", input),
+  create: (input: CreateRecipeInput) => api.post<Receita>("/receitas", input),
   update: (id: string, input: UpdateRecipeInput) => api.patch<Receita>(`/receitas/${id}`, input),
   // Só o dono pode enviar; substitui a imagem anterior. Devolve o caminho da imagem.
   uploadImage: (receitaId: string, file: File) => {
     const form = new FormData();
-    form.append("receitaId", receitaId);
     form.append("file", file);
-    return api.post<string>("/receitas/imagem", form);
+    return api.put<string>(`/receitas/${receitaId}/imagem`, form);
   },
-  // Endpoint de remoção da imagem: DELETE /receitas/imagem/{receitaId}.
-  removeImage: (receitaId: string) => api.delete<null>(`/receitas/imagem/${receitaId}`),
+  removeImage: (receitaId: string) => api.delete<null>(`/receitas/${receitaId}/imagem`),
   remove: (id: string) => api.delete<null>(`/receitas/${id}`),
 };

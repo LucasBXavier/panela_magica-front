@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
-import type { Usuario } from "@/features/auth/types";
+import type { LoginResponse, Usuario } from "@/features/auth/types";
 
 const TOKEN_COOKIE = "pm_token";
+const REFRESH_COOKIE = "pm_refresh";
 const USER_COOKIE = "pm_user";
 
 const baseOptions = {
@@ -15,9 +16,15 @@ export async function getToken(): Promise<string | undefined> {
   return (await cookies()).get(TOKEN_COOKIE)?.value;
 }
 
+export async function getRefreshToken(): Promise<string | undefined> {
+  return (await cookies()).get(REFRESH_COOKIE)?.value;
+}
+
+// Logado = há access token ou refresh token (o access expira em 60 min e é
+// renovado sob demanda; o refresh vale 7 dias).
 export async function getSession(): Promise<Usuario | null> {
   const store = await cookies();
-  if (!store.get(TOKEN_COOKIE)) return null;
+  if (!store.get(TOKEN_COOKIE) && !store.get(REFRESH_COOKIE)) return null;
   const raw = store.get(USER_COOKIE)?.value;
   if (!raw) return null;
   try {
@@ -27,14 +34,17 @@ export async function getSession(): Promise<Usuario | null> {
   }
 }
 
-export async function setSession(token: string, usuario: Usuario, expiresIn: number): Promise<void> {
+// Grava o par de tokens devolvido por login/refresh. Só route handlers e server actions podem escrever cookies.
+export async function setSession(data: LoginResponse): Promise<void> {
   const store = await cookies();
-  store.set(TOKEN_COOKIE, token, { ...baseOptions, maxAge: expiresIn });
-  store.set(USER_COOKIE, JSON.stringify(usuario), { ...baseOptions, maxAge: expiresIn });
+  store.set(TOKEN_COOKIE, data.token, { ...baseOptions, maxAge: data.expiresIn });
+  store.set(REFRESH_COOKIE, data.refreshToken, { ...baseOptions, maxAge: data.refreshExpiresIn });
+  store.set(USER_COOKIE, JSON.stringify(data.usuario), { ...baseOptions, maxAge: data.refreshExpiresIn });
 }
 
 export async function clearSession(): Promise<void> {
   const store = await cookies();
   store.delete(TOKEN_COOKIE);
+  store.delete(REFRESH_COOKIE);
   store.delete(USER_COOKIE);
 }

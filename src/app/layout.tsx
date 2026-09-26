@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import AppToaster from "@/components/ui/AppToaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         <div className="page">{children}</div>
         <SiteFooter />
+        <AppToaster />
       </body>
     </html>
   );
